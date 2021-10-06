@@ -19,25 +19,32 @@ export default class MessageArea extends Component {
         this.chat.focus();
     }
 
-     componentDidMount() {
-        window.scrollTo(0, document.body.scrollHeight);
+    componentDidMount() {
+        this.scrollToBottom();
+        this.focus();
     }
 
     componentDidUpdate() {
-        window.scrollTo(0, document.body.scrollHeight);
+        this.scrollToBottom();
+        this.focus();
     }
-render(props,{}) {
+
+    render(props,{}) {
         const currentTime = new Date();
         return (
             <div class="chat" ref={(el) => {this.chat = el;}}>
                 {props.messages.map(({name, text, from, time}) => {
                     if (from === 'visitor') {
                         name = props.conf.visitorPronoun;
+                    }else if(){
+                    name = '客服';
+                    }else{
+                    name = '系統';
                     }
                     return (
                         <div class={'chat-message ' + from}>
                             <div class="msg">
-                                <p>{name ? name + ': ' + text.split('\n').map((item, key) => <span key={key}>{item}<br/></span>)}</p>
+                                <p>{name} : {text.split('\n').map((item, key) => <span key={key}>{item}<br/></span>)}</p>
                                 { (props.conf.displayMessageTime) ?
                                     <div class="time">
                                         {
@@ -45,7 +52,7 @@ render(props,{}) {
                                                 dateFormat(time, "HH:MM") :
                                                 dateFormat(time, "m/d/yy HH:MM")
                                         }
-                                    </div> 
+                                    </div>
                                     :
                                     ''
                                 }
@@ -58,4 +65,3 @@ render(props,{}) {
     }
 
 }
-    
