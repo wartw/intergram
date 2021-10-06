@@ -19,25 +19,26 @@ export default class MessageArea extends Component {
         this.chat.focus();
     }
 
-    componentDidMount() {
-        this.scrollToBottom();
-        this.focus();
+     componentDidMount() {
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     componentDidUpdate() {
-        this.scrollToBottom();
-        this.focus();
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     render(props,{}) {
         const currentTime = new Date();
         return (
-            <div class="chat" ref={(el) => {this.chat = el;}}>
+            <ol class="chat">
                 {props.messages.map(({name, text, from, time}) => {
+                    if (from === 'visitor') {
+                        name = props.conf.visitorPronoun;
+                    }
                     return (
-                        <div class={'chat-message ' + from}>
+                        <li class={from}>
                             <div class="msg">
-                                <p>{text.split('\n').map((item, key) => <span key={key}>{item}<br/></span>)}</p>
+                                <p>{name ? name + ': ' + text : text}</p>
                                 { (props.conf.displayMessageTime) ?
                                     <div class="time">
                                         {
@@ -50,10 +51,10 @@ export default class MessageArea extends Component {
                                     ''
                                 }
                             </div>
-                        </div>
+                        </li>
                     );
                 })}
-            </div>
+            </ol>
         );
     }
 
