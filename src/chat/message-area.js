@@ -36,7 +36,7 @@ export default class MessageArea extends Component {
                 {props.messages.map(({name, text, from, time}) => {
                     if (from === 'visitor') {
                         name = props.conf.visitorPronoun;
-                    }else if(){
+                    }else if(from === 'admin'){
                     name = '客服';
                     }else{
                     name = '系統';
