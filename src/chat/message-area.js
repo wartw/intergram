@@ -26,19 +26,18 @@ export default class MessageArea extends Component {
     componentDidUpdate() {
         window.scrollTo(0, document.body.scrollHeight);
     }
-
-    render(props,{}) {
+render(props,{}) {
         const currentTime = new Date();
         return (
-            <ol class="chat">
+            <div class="chat" ref={(el) => {this.chat = el;}}>
                 {props.messages.map(({name, text, from, time}) => {
                     if (from === 'visitor') {
                         name = props.conf.visitorPronoun;
                     }
                     return (
-                        <li class={from}>
+                        <div class={'chat-message ' + from}>
                             <div class="msg">
-                                <p>{name ? name + ': ' + text : text}</p>
+                                <p>{name ? name + ': ' + text.split('\n').map((item, key) => <span key={key}>{item}<br/></span>)}</p>
                                 { (props.conf.displayMessageTime) ?
                                     <div class="time">
                                         {
@@ -51,11 +50,12 @@ export default class MessageArea extends Component {
                                     ''
                                 }
                             </div>
-                        </li>
+                        </div>
                     );
                 })}
-            </ol>
+            </div>
         );
     }
 
 }
+    
