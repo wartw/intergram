@@ -4,7 +4,9 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const http = require('http').Server(app);
+const fs = require('fs') // Required for reading the certificate and key files
+let options = { key: fs.readFileSync("/opt/intergram/key.pem"), cert: fs.readFileSync("/opt/intergram/bundle.crt") };
+const http = require ('https').Server(options,app);
 const io = require('socket.io')(http);
 
 app.use(express.static('dist'));
